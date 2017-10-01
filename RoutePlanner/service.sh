@@ -29,8 +29,8 @@ dev_smoke() {
 _run_smoke() {
   baseUrl="http://localhost:8088"
   echo "Running smoke tests on $baseUrl..." && \
-    (curl -fsS "$baseUrl/api/direct?dep_sid=3&arr_sid=4" | grep -E 'true|false') && \
-    (curl -fsS "$baseUrl/api/direct?dep_sid=0&arr_sid=1" | grep -E 'true|false')
+    (curl -fsS "$baseUrl/api/direct?dep_sid=153&arr_sid=148" | grep -E 'true|false') && \
+    (curl -fsS "$baseUrl/api/direct?dep_sid=153&arr_sid=155" | grep -E 'true|false')
 }
 
 docker_build() {

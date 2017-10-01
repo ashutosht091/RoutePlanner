@@ -33,7 +33,7 @@ public class RoutePlannerApplication  {
 	public static String filePath = null ;
 
 	public static void main(String[] args) {
-		if(args!=null&&args[0]!=null)
+		if(args!=null &&args.length>0&&args[0]!=null)
 		{
 			filePath = args[0];
 		}
@@ -53,7 +53,7 @@ public class RoutePlannerApplication  {
 		RootPlannerDao rootPlannerDao = null ;
 		FileInputStream file= null;
 		if(StringUtils.isEmpty(filePath)){
-			System.out.println("reading default routes from resources route.txt file ");
+			System.out.println("reading default routes from resources data/example file ");
 			Resource resource = resourceLoader.getResource(defRoutes);
 			file = new FileInputStream(resource.getFile());
 
