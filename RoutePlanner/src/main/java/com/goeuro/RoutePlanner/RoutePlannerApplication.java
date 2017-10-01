@@ -28,7 +28,7 @@ public class RoutePlannerApplication  {
 	private String defRoutes;
 	
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RoutePlannerConfigurationeManager.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoutePlannerApplication.class);
 
 	public static String filePath = null ;
 
@@ -39,7 +39,7 @@ public class RoutePlannerApplication  {
 		}
 
 		try{
-			Object[] objectSource = { RoutePlannerApplication.class, RoutePlannerConfigurationeManager.class };
+			Object[] objectSource = { RoutePlannerApplication.class };
 			SpringApplication.run(objectSource, args);
 		}catch(Exception ex)
 		{
