@@ -1,44 +1,41 @@
 package com.goeuro.RoutePlanner;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.StringUtils;
 
 import com.goeuro.RoutePlanner.DAO.RootPlannerDao;
 import com.goeuro.RoutePlanner.DAO.impl.RoutePlannerDaoImpl;
+import com.goeuro.RoutePlanner.service.RoutePlannerService;
 
 @SpringBootApplication
-public class RoutePlannerApplication implements ApplicationRunner {
+public class RoutePlannerApplication  {
 
-	private static String path ;
+
 	
-	private final static int index = 0;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoutePlannerConfigurationeManager.class);
+
+	
 	public static void main(String[] args) {
-		path = args[index];
-		SpringApplication.run(RoutePlannerApplication.class, args);
 		
+		Object[] objectSource = { RoutePlannerApplication.class, RoutePlannerConfigurationeManager.class };
+		SpringApplication.run(objectSource, args);
+
 	}
 
-
-	@Bean
-	public RootPlannerDao RootPlannerDao() throws FileNotFoundException{
-		RootPlannerDao rootPlannerDao = null ;
-		FileInputStream file = new FileInputStream(path);
-		rootPlannerDao  = new RoutePlannerDaoImpl(file);
-		return rootPlannerDao;
-	}
+	
 
 
-	@Override
-	public void run(ApplicationArguments arg0) throws Exception {
-		
-		this.path = arg0.getSourceArgs()[index];
-	}
 
 }

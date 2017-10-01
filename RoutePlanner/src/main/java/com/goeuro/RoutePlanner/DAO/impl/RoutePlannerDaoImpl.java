@@ -13,9 +13,11 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.goeuro.RoutePlanner.DAO.RootPlannerDao;
+import com.goeuro.RoutePlanner.controller.RouteController;
 import com.goeuro.RoutePlanner.pojo.Station;
 
 
@@ -24,9 +26,13 @@ public class RoutePlannerDaoImpl implements RootPlannerDao {
 	private FileInputStream file;
 
 	private Map<Integer,Station> stationMap ;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoutePlannerDaoImpl.class);
+
+
 
 	@PostConstruct
-	public void generateDataBase() throws IOException
+	public void generateDataBase() throws IOException,NumberFormatException
 	{
 		try (BufferedReader br
 				= new BufferedReader(new InputStreamReader(file))) {
@@ -51,9 +57,10 @@ public class RoutePlannerDaoImpl implements RootPlannerDao {
 	{
 		stationMap = new HashMap<Integer,Station>(size);
 	}
-	private void addRoute(String routeDetails)
+	private void addRoute(String routeDetails) throws NumberFormatException
 	{
 
+		try{
 		String[] route = routeDetails.split(" ");
 		Integer routeId = Integer.parseInt(route[0]);
 		Integer prevStationsId = null;
@@ -79,11 +86,20 @@ public class RoutePlannerDaoImpl implements RootPlannerDao {
 			}
 			prevStationsId = 	Integer.parseInt(route[i]);
 		}
+		}catch(NumberFormatException ex)
+		{
+			LOGGER.error("error occured while parsing the file",ex);
+			throw ex;
+		}catch(Exception ex)
+		{
+			LOGGER.error("Internal error occured while generating station map",ex);
+			throw ex;
+		}
 	}	
 
-	public RoutePlannerDaoImpl(FileInputStream file2)
+	public RoutePlannerDaoImpl(FileInputStream file)
 	{
-		this.file = file2;
+		this.file = file;
 	}
 
 	@Override
