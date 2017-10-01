@@ -16,9 +16,13 @@ public class RoutePlannerApplication  {
 	
 	public static void main(String[] args) {
 		
+		try{
 		Object[] objectSource = { RoutePlannerApplication.class, RoutePlannerConfigurationeManager.class };
 		SpringApplication.run(objectSource, args);
-
+		}catch(Exception ex)
+		{
+			LOGGER.error("Error occured while loading Context ",ex);
+		}
 	}
 
 	

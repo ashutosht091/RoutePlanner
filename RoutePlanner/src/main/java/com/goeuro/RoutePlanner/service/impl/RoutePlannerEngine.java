@@ -46,6 +46,11 @@ public class RoutePlannerEngine implements RoutePlannerService {
 		return RoutePlannerResponseUtil.prepareResponse(routes, arrivalId, departureId);
 	}
 
+	/*
+	 * This function first check whether there is common route (direct root)
+	 * Then it checks whether departure connects to arrival or not
+	 * 
+	 */
 	public Set<Integer> availaibleRoutes(Map<Integer,Station> stationMap,Integer departId, Integer arrivalId)
 	{
 		Set<Integer> routes = new HashSet<Integer>(1);
@@ -70,7 +75,11 @@ public class RoutePlannerEngine implements RoutePlannerService {
 		return routes;
 
 	}
-
+/*
+ * Simple BFS to check the connectivity
+ * This function wont be called unless there is atleast one common route
+ * because then only there will be direct route
+ */
 	Boolean isReachable(Station sourceStation, int departure)
 	{
 

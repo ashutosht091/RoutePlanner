@@ -9,8 +9,10 @@ dev_build() {
 }
 
 dev_run() {
-#in routes property pass the name of the file . by default it will pick file from the class path which is already packaged in jar
-  java -jar target/RoutePlanner-0.0.1-SNAPSHOT.jar --routes=""
+# Uncomment the below line and in "routes" property pass the path of the file .
+java -jar target/RoutePlanner-0.0.1-SNAPSHOT.jar --routes="/home/ashutosh/Documents/routes.txt"
+
+  
   sleep 600
 }
 

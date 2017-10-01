@@ -24,7 +24,7 @@ import com.goeuro.RoutePlanner.pojo.Station;
 public class RoutePlannerDaoImpl implements RootPlannerDao {
 
 	private FileInputStream file;
-
+	//Map StationID->StationObject
 	private Map<Integer,Station> stationMap ;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoutePlannerDaoImpl.class);
