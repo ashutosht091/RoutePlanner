@@ -4,13 +4,13 @@
 cd $(dirname $0)
 
 dev_build() {
-  mvn clean install
+ mvn clean install
   true
 }
 
 dev_run() {
 # Uncomment the below line and in "routes" property pass the path of the file .
-java -jar target/RoutePlanner-0.0.1-SNAPSHOT.jar --routes="/home/ashutosh/Documents/routes.txt"
+ java -jar target/RoutePlanner-0.0.1-SNAPSHOT.jar --routes="/home/ashutosh/Documents/routes.txt"
 
   
   sleep 600
