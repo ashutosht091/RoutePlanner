@@ -10,7 +10,7 @@ dev_build() {
 
 dev_run() {
 # Uncomment the below line and in "routes" property pass the path of the file .
- java -jar target/RoutePlanner-0.0.1-SNAPSHOT.jar --routes="/home/ashutosh/Documents/routes.txt"
+ java -jar target/RoutePlanner-0.0.1-SNAPSHOT.jar $*
 
   
   sleep 600
@@ -35,10 +35,12 @@ _run_smoke() {
 
 docker_build() {
   docker build -t goeuro:devtest .
+  
 }
 
 docker_run() {
-  docker run --rm -it -p 8088:8088 goeuro:devtest
+  docker run --rm -it -p 8088:8088 goeuro:devtest 
+  
 }
 
 docker_smoke() {

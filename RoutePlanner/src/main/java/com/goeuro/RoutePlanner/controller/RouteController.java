@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goeuro.RoutePlanner.pojo.RouteResponse;
+import com.goeuro.RoutePlanner.pojo.ValidationException;
 import com.goeuro.RoutePlanner.service.RoutePlannerService;
 import com.goeuro.RoutePlanner.util.RoutePlannerResponseUtil;
 import com.goeuro.RoutePlanner.util.RouteValidatorUtil;
@@ -24,7 +25,7 @@ import com.goeuro.RoutePlanner.util.RouteValidatorUtil;
 public class RouteController {
 
 @Autowired
-RoutePlannerService service;
+private RoutePlannerService service;
 	
 
 private static final Logger LOGGER = LoggerFactory.getLogger(RouteController.class);
@@ -36,11 +37,18 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RouteController.cla
 		try{
 			RouteValidatorUtil.validateRequest(departureId, arrivalId);
 			response = service.checkDirectRouteAvailability(departureId, arrivalId);
+		}catch(ValidationException validationException)
+		{
+			LOGGER.error("invalid input parametes {}",validationException.getMessage());
 		}catch(Exception exception)
 		{
 			LOGGER.error("error occured while getting response ",exception);
 			//we can set error response here with error code ;
+		}
+		if(response == null)
+		{
 			response = RoutePlannerResponseUtil.prepareResponse(Collections.EMPTY_SET, arrivalId, departureId);
+			
 		}
 		return response;
 	}

@@ -32,7 +32,7 @@ public class RoutePlannerEngine implements RoutePlannerService {
 
 	@Override
 	public RouteResponse checkDirectRouteAvailability(Integer departureId, Integer arrivalId) {
-		// TODO Auto-generated method stub
+		
 		Set<Integer> routes  = null;
 		try{
 			Map<Integer,Station> stationMap = routePlannerDao.getAvailableRoutes();
@@ -41,7 +41,7 @@ public class RoutePlannerEngine implements RoutePlannerService {
 			LOGGER.info("routes recovered are {}",routes);
 		}catch(Exception ex)
 		{
-			LOGGER.error("error occured while getting routes for given depart{} and arr{}",departureId,arrivalId,ex);
+			LOGGER.error("error occured while getting routes for given depart {} and arr{}",departureId,arrivalId,ex);
 		}
 		return RoutePlannerResponseUtil.prepareResponse(routes, arrivalId, departureId);
 	}
@@ -68,7 +68,7 @@ public class RoutePlannerEngine implements RoutePlannerService {
 		}else
 		{
 			String stopId = departureStation==null?arrivalStation==null?departId+"-"+arrivalId:departId.toString():arrivalId.toString();
-			LOGGER.error("Missing Stops in any route{}",stopId);
+			LOGGER.error("Missing Stops in any available route {}",stopId);
 		}
 
 
@@ -78,41 +78,41 @@ public class RoutePlannerEngine implements RoutePlannerService {
 /*
  * Simple BFS to check the connectivity
  * This function wont be called unless there is atleast one common route
- * because then only there will be direct route
+ *  then only there will exist a direct route
  */
 	Boolean isReachable(Station sourceStation, int departure)
 	{
 
 
-		// Mark all the vertices as not visited(By default set
+		// Mark all the Stations as not visited(By default set
 		// as false)
 		Map<Integer,Boolean> visited = new HashMap<Integer,Boolean>();
 
 		// Create a queue for BFS
 		LinkedList<Station> queue = new LinkedList<Station>();
 
-		// Mark the current node as visited and enqueue it
+		// Mark the current Station as visited and enqueue it
 		visited.put(sourceStation.getStationId(), true);
 		queue.add(sourceStation);
 
-		// 'i' will be used to get all adjacent vertices of a vertex
-		ListIterator<Station> i;
+		// 'adjStations' will be used to get all adjacent Stations of a station
+		ListIterator<Station> adjStations;
 		while (queue.size()!=0)
 		{
-			// Dequeue a vertex from queue and print it
+			// Dequeue a station from queue and print it
 			sourceStation = queue.poll();
 
 			Station adjStation;
-			i = sourceStation.getAdJconnectedStations().listIterator();
+			adjStations = sourceStation.getAdJconnectedStations().listIterator();
 
-			// Get all adjacent vertices of the dequeued vertex s
+			// Get all adjacent Stations of the dequeued station
 			// If a adjacent has not been visited, then mark it
 			// visited and enqueue it
-			while (i.hasNext())
+			while (adjStations.hasNext())
 			{
-				adjStation = i.next();
+				adjStation = adjStations.next();
 
-				// If this adjacent node is the destination node,
+				// If this adjacent Station is the destination Station,
 				// then return true
 				if (adjStation.getStationId()==departure)
 					return true;
