@@ -31,7 +31,7 @@ public class RoutePlannerDaoImpl implements RootPlannerDao {
 
 
 
-	@PostConstruct
+	
 	public void generateDataBase() throws IOException,NumberFormatException
 	{
 		try (BufferedReader br
@@ -97,9 +97,10 @@ public class RoutePlannerDaoImpl implements RootPlannerDao {
 		}
 	}	
 
-	public RoutePlannerDaoImpl(FileInputStream file)
+	public RoutePlannerDaoImpl(FileInputStream file)throws IOException,NumberFormatException
 	{
 		this.file = file;
+		generateDataBase();
 	}
 
 	@Override

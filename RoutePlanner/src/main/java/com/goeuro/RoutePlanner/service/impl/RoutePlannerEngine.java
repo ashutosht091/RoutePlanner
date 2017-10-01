@@ -36,7 +36,7 @@ public class RoutePlannerEngine implements RoutePlannerService {
 		Set<Integer> routes  = null;
 		try{
 			Map<Integer,Station> stationMap = routePlannerDao.getAvailableRoutes();
-
+			if(stationMap!=null)
 			routes = this.availaibleRoutes(stationMap, departureId, arrivalId);
 			LOGGER.info("routes recovered are {}",routes);
 		}catch(Exception ex)
@@ -46,20 +46,25 @@ public class RoutePlannerEngine implements RoutePlannerService {
 		return RoutePlannerResponseUtil.prepareResponse(routes, arrivalId, departureId);
 	}
 
-	public Set<Integer> availaibleRoutes(Map<Integer,Station> stationMap,int departId, int arrivalId)
+	public Set<Integer> availaibleRoutes(Map<Integer,Station> stationMap,Integer departId, Integer arrivalId)
 	{
 		Set<Integer> routes = new HashSet<Integer>(1);
 		Station departureStation = stationMap.get(departId);
 		Station arrivalStation  = stationMap.get(arrivalId);
-		for(Integer route:departureStation.getRouteIds())
-		{
-			if(arrivalStation.getRouteIds().contains(route))
+		if(departureStation!=null && arrivalStation!=null ){
+			for(Integer route:departureStation.getRouteIds())
 			{
-				if(isReachable(departureStation,arrivalStation.getStationId()))
-					routes.add(route);
+				if(arrivalStation.getRouteIds().contains(route))
+				{
+					if(isReachable(departureStation,arrivalStation.getStationId()))
+						routes.add(route);
+				}
 			}
+		}else
+		{
+			String stopId = departureStation==null?arrivalStation==null?departId+"-"+arrivalId:departId.toString():arrivalId.toString();
+			LOGGER.error("Missing Stops in any route{}",stopId);
 		}
-
 
 
 		return routes;

@@ -28,11 +28,11 @@ public class RoutePlannerConfigurationeManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoutePlannerConfigurationeManager.class);
 
 	@Bean
-	public RootPlannerDao RootPlannerDao(@Value("${routes:}") String path) throws IOException{
+	public RootPlannerDao RootPlannerDao(@Value("${routes:}") String path) throws IOException,NumberFormatException{
 		RootPlannerDao rootPlannerDao = null ;
 		FileInputStream file= null;
-		if(StringUtils.isEmpty(path)){
-			System.out.println("reading default  routes  from resources ");
+		if(StringUtils.isEmpty(path.trim())){
+			System.out.println("reading default routes from resources route.txt file ");
 			Resource resource = resourceLoader.getResource(defRoutes);
 			file = new FileInputStream(resource.getFile());
 
